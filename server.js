@@ -188,6 +188,10 @@ class ChatServer {
             // 发送历史消息
             if (this.messages.length > 0) {
                 this.messages.forEach(msg => {
+                    // 屏蔽空消息
+                    if (msg.message.trim() === '') {
+                        return;
+                    }
                     if (msg.type === 'whisper') {
                         clientInfo.socket.write(`[${msg.timestamp}] [私聊] ${msg.username} -> ${msg.target}: ${msg.message}\n`);
                     } else {
@@ -224,6 +228,10 @@ class ChatServer {
                 // 发送历史消息
             if (this.messages.length > 0) {
                 this.messages.forEach(msg => {
+                    // 屏蔽空消息
+                    if (msg.message.trim() === '') {
+                        return;
+                    }
                     if (msg.type === 'whisper') {
                         clientInfo.socket.write(`[${msg.timestamp}] [私聊] ${msg.username} -> ${msg.target}: ${msg.message}\n`);
                     } else {
@@ -257,6 +265,9 @@ class ChatServer {
             const timestamp = new Date().toLocaleTimeString();
             
             if (clientInfo.chatMode === 'group') {
+                if (message.trim() === '') {
+                    return;
+                }
                 // 群聊模式
                 const formattedMessage = `[${timestamp}] ${clientInfo.username}: ${message}`;
 
@@ -279,6 +290,9 @@ class ChatServer {
                 this.broadcast(formattedMessage, clientInfo.socket);
                 console.log(`${clientInfo.username}: ${message}`.cyan);
             } else {
+                if (message.trim() === '') {
+                    return;
+                }
                 // 私聊模式
                 this.sendWhisperMessage(clientInfo, message);
             }

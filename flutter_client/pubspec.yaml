@@ -1,0 +1,22 @@
+name: nuoke_chat_client
+description: Nuoke聊天客户端的Flutter版本
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.1.1
+  shared_preferences: ^2.2.2
+  intl: ^0.18.1
+  flutter_colorpicker: ^1.0.3
+  badges: ^3.1.2
+
+flutter:
+  uses-material-design: true
