@@ -168,6 +168,8 @@ class _ChatScreenState extends State<ChatScreen> {
     if (message.isEmpty) return;
 
     final chatService = Provider.of<ChatService>(context, listen: false);
+    print(chatService.currentChatMode);
+    print("ZY(-v-) 发送消息: $message");
     chatService.sendMessage(message);
     _messageController.clear();
 
