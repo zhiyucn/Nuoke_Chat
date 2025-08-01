@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/chat_service_tcp.dart';
 import '../services/theme_service.dart';
-import '../widgets/message_bubble.dart';
+import '../widgets/simple_message.dart';
 import '../widgets/user_list.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -106,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
               itemCount: chatService.messages.length,
               itemBuilder: (context, index) {
                 final message = chatService.messages.reversed.toList()[index];
-                return MessageBubble(message: message);
+                return SimpleMessage(message: message);
               },
             ),
           ),

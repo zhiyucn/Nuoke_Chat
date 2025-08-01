@@ -193,7 +193,10 @@ class ChatServer {
                         return;
                     }
                     if (msg.type === 'whisper') {
-                        clientInfo.socket.write(`[${msg.timestamp}] [私聊] ${msg.username} -> ${msg.target}: ${msg.message}\n`);
+                        //clientInfo.socket.write(`[${msg.timestamp}] [私聊] ${msg.username} -> ${msg.target}: ${msg.message}\n`);
+                        if (msg.target === username) {
+                            clientInfo.socket.write(`[${msg.timestamp}] [私聊] ${msg.username} -> ${msg.target}: ${msg.message}\n`);
+                        }
                     } else {
                         clientInfo.socket.write(`[${msg.timestamp}] ${msg.username}: ${msg.message}\n`);
                     }

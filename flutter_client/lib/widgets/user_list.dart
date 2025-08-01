@@ -8,7 +8,6 @@ class UserList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatService = Provider.of<ChatService>(context);
-
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -23,6 +22,11 @@ class UserList extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () => chatService.getOnlineUsers(),
+                tooltip: '刷新用户列表',
+              ),
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => Navigator.pop(context),

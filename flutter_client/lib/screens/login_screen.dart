@@ -12,8 +12,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _hostController = TextEditingController(text: 'localhost');
-  final _portController = TextEditingController(text: '8888');
+  final _hostController = TextEditingController(text: 'xg-2.frp.one');
+  final _portController = TextEditingController(text: '34471');
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isConnecting = false;

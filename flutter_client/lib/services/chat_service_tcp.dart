@@ -129,6 +129,8 @@ class ChatService extends ChangeNotifier {
     } else if (message.contains('输入 /help 查看可用命令')) {
       // 登录成功后的提示，标记为已登录
       _isLoggedIn = true;
+      // 登录成功后自动获取在线用户列表
+      getOnlineUsers();
       return;
     } else if (message.contains('密码错误') || message.contains('密码不正确')) {
       // 密码错误
@@ -144,11 +146,30 @@ class ChatService extends ChangeNotifier {
         disconnect();
       });
       return;
+    } else if (message.contains('用户已离线') || message.contains('用户已下线') || message.contains('不存在')) {
+      // 私聊目标用户已离线，自动返回群聊
+      if (currentChatMode != 'group') {
+        final targetUser = currentChatMode;
+        messages.add(Message(
+          username: '系统',
+          content: '用户 $targetUser 已离线，已自动返回群聊',
+          timestamp: DateTime.now(),
+          type: MessageType.system,
+        ));
+        switchToGroupChat();
+      } else {
+        messages.add(Message(
+          username: '系统',
+          content: message,
+          timestamp: DateTime.now(),
+          type: MessageType.system,
+        ));
+      }
     } else {
       // 其他系统消息
       messages.add(Message(
         username: '系统',
-        content: message,
+        content: _removeAnsiCodes(message),
         timestamp: DateTime.now(),
         type: MessageType.system,
       ));
@@ -184,10 +205,10 @@ class ChatService extends ChangeNotifier {
       print('ZY(-v-) 群聊消息: $content');
       _socket!.writeln(content);
     } else {
-      // 私聊消息
-      // 发出日志
+      // 私聊消息 - 直接发送消息内容，不再发送/w命令前缀
+      // 因为已经在switchToPrivateChat时发送了/w命令建立会话
       print('ZY(-v-) 私聊消息: $currentChatMode $content');
-      _socket!.writeln('/w $currentChatMode $content');
+      _socket!.writeln(content);
     }
   }
 
@@ -195,6 +216,10 @@ class ChatService extends ChangeNotifier {
   void switchToPrivateChat(String targetUsername) {
     currentChatMode = targetUsername;
     privateChatTarget = targetUsername;
+    // 发送/w命令建立私聊会话
+    if (_socket != null && isConnected && _isLoggedIn) {
+      _socket!.writeln('/w $targetUsername');
+    }
     notifyListeners();
   }
 
@@ -226,5 +251,10 @@ class ChatService extends ChangeNotifier {
     if (_socket != null && isConnected && _isLoggedIn) {
       _socket!.writeln('/users');
     }
+  }
+
+  // 移除ANSI颜色代码
+  String _removeAnsiCodes(String text) {
+    return text.replaceAll(RegExp(r'\x1B\[[0-9;]*[mK]'), '');
   }
 }
