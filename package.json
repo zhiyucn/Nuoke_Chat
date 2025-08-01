@@ -1,0 +1,16 @@
+{
+  "name": "nuoke-chat",
+  "version": "1.0.0",
+  "description": "基于TCP协议的聊天软件，支持群聊和私聊",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "client": "node client.js"
+  },
+  "keywords": ["tcp", "chat", "nodejs", "群聊", "私聊"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}
